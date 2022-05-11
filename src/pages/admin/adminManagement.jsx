@@ -2,7 +2,20 @@ import React from "react";
 import { Form, Input, Checkbox, Table, Button, message } from "antd";
 import "./admin.css";
 
-
+const dataSource = [
+  {
+    key: "1",
+    name: "Mike",
+    age: 32,
+    address: "10 Downing Street"
+  },
+  {
+    key: "2",
+    name: "John",
+    age: 42,
+    address: "10 Downing Street"
+  }
+];
 
 const columns = [
   {
@@ -19,6 +32,11 @@ const columns = [
     title: "Address",
     dataIndex: "address",
     key: "address"
+  },
+  {
+    title: "Action",
+    key: "action",
+    render: () => <Button>Delete</Button>
   }
 ];
 
@@ -33,48 +51,25 @@ const AdminManagement = () => {
 
   const layout = {
     labelCol: {
-      span: 8,
+      span: 8
     },
     wrapperCol: {
-      span: 14,
-    },
+      span: 14
+    }
   };
 
-  const dataSource = [
-    {
-      
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street"
-    },
-    {
-    
-      name: "John",
-      age: 42,
-      address: "10 Downing Street"
-    }
-  ];
-
   return (
-    <div className = "MainContainer-Item">
+    <div className="MainContainer-Item">
       <div className="form-item">
         <Form
           name="basic"
-          labelCol={{
-            span: 8
-          }}
-          wrapperCol={{
-            span: 16
-          }}
-          initialValues={{
-            remember: true
-          }}
+        
           onFinish={onFinish}
           autoComplete="off"
         >
           <Form.Item
-            label="Username"
-            name="username"
+            label="Name"
+            name="name"
             rules={[
               {
                 required: true,
@@ -97,18 +92,6 @@ const AdminManagement = () => {
           >
             <Input.Password />
           </Form.Item>
-
-          <Form.Item
-            name="remember"
-            valuePropName="checked"
-            wrapperCol={{
-              offset: 8,
-              span: 16
-            }}
-          >
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
-
           <Form.Item
             wrapperCol={{
               offset: 8,
@@ -116,20 +99,19 @@ const AdminManagement = () => {
             }}
           ></Form.Item>
 
-          
-     <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 6 }}>
-        <Button type="primary" htmlType="submit" onClick={success}>
-          ADD
-        </Button>
-      </Form.Item>
-
+          <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 6 }}>
+            <Button type="primary" htmlType="submit" onClick={success}>
+              ADD
+            </Button>
+          </Form.Item>
         </Form>
       </div>
 
-      <div >
-        <Table columns={columns} 
-        data={dataSource} 
-        className="table" 
+      <div>
+        <Table
+          dataSource={dataSource}
+          columns={columns}
+          className="admin-table"
         />
       </div>
     </div>

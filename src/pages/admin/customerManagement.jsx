@@ -40,7 +40,7 @@ const CustomerManagement = () => {
 
 return (
   <div>
-   <Table columns={columns} data={dataSource} className="table" />
+   <Table columns={columns} data={dataSource} className="customer-table" />
   </div>
 );
 };
