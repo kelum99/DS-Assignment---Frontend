@@ -1,26 +1,81 @@
-import React from "react";
-import { Form, Input, Button, Layout } from 'antd';
-import './stylesAdmin.css';
+import React, { useState } from "react";
+import { Form, Input, Button, Layout, Table, Space, Modal } from "antd";
+import "./stylesAdmin.css";
 
+function Add() {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
 
-const add = () => {
-    // const onFinish = (values) => {
-    //   console.log('Success:', values);
-    // };
-  
-    // const onFinishFailed = (errorInfo) => {
-    //   console.log('Failed:', errorInfo);
-    // };
-    
-  
-    return (
-        
-       <Layout >
-           
-           
-           <h1><center>Add Your Movie</center></h1><br/>
+  const handleUpdate = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const dataSource = [
+    {
+      key: "1",
+      name: "Mike",
+      age: 32,
+      address: "10 Downing Street",
+    },
+    {
+      key: "2",
+      name: "John",
+      age: 42,
+      address: "10 Downing Street",
+    },
+  ];
+
+  const columns = [
+    {
+      title: "Movie Name",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Description",
+      dataIndex: "des",
+      key: "des",
+    },
+    {
+      title: "Ticket Price",
+      dataIndex: "price",
+      key: "price",
+    },
+    {
+      title: "Show Time",
+      dataIndex: "time",
+      key: "time",
+    },
+    {
+      title: "Category",
+      dataIndex: "category",
+      key: "category",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (text, record) => (
+        <Space size="middle">
+          <Button onClick={showModal}>Update</Button>
+          <Button>Delete</Button>
+        </Space>
+      ),
+    },
+  ];
+
+  return (
+    <Layout>
+      <h1>
+        <center>Add Your Movie</center>
+      </h1>
+      <br />
       <Form
-      
         name="basic"
         labelCol={{
           span: 8,
@@ -35,29 +90,26 @@ const add = () => {
         // onFinishFailed={onFinishFailed}
         // autoComplete="off"
       >
-
         <Form.Item
           label="Movie Name"
           name="name"
           rules={[
             {
               required: true,
-              message: 'Please input your username!',
+              message: "Please input your username!",
             },
           ]}
         >
           <Input />
         </Form.Item>
-  
-        
-        
+
         <Form.Item
           label="Description"
           name="text"
           rules={[
             {
               required: true,
-              message: 'Please input your username!',
+              message: "Please input your username!",
             },
           ]}
         >
@@ -70,7 +122,7 @@ const add = () => {
           rules={[
             {
               required: true,
-              message: 'Please input your username!',
+              message: "Please input your username!",
             },
           ]}
         >
@@ -83,7 +135,7 @@ const add = () => {
           rules={[
             {
               required: true,
-              message: 'Please input your username!',
+              message: "Please input your username!",
             },
           ]}
         >
@@ -96,50 +148,104 @@ const add = () => {
           rules={[
             {
               required: true,
-              message: 'Please input your username!',
+              message: "Please input your username!",
             },
           ]}
         >
           <Input />
         </Form.Item>
-  
+
         <Form.Item
-        wrapperCol={{
+          wrapperCol={{
             offset: 8,
             span: 16,
-          }}>
-         
+          }}
+        >
           <Button type="primary" htmlType="submit">
             Submit
           </Button>
-        
         </Form.Item>
       </Form>
 
       <div>
-<table id="table" className="container">
-    
-<tr>
-  <th>Movie Name</th>
+        <Table dataSource={dataSource} columns={columns} />
+      </div>
 
-  <th>Description</th>
+      <Modal
+        title="Update"
+        visible={isModalVisible}
+        onUpdate={handleUpdate}
+        onCancel={handleCancel}
+      >
+        <Form>
+          <Form.Item
+            label="Movie Name"
+            name="name"
+            rules={[
+              {
+                required: true,
+                message: "Please input your username!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
 
-  <th>Ticket Price</th>
+          <Form.Item
+            label="Description"
+            name="text"
+            rules={[
+              {
+                required: true,
+                message: "Please input your username!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
 
-  <th>Show Time</th>
+          <Form.Item
+            label="Ticket Price"
+            name="text"
+            rules={[
+              {
+                required: true,
+                message: "Please input your username!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
 
-  <th>Category</th>
+          <Form.Item
+            label="Show Time"
+            name="text"
+            rules={[
+              {
+                required: true,
+                message: "Please input your username!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
 
-</tr>
-</table>
-</div>
-      </Layout>
+          <Form.Item
+            label="Category"
+            name="text"
+            rules={[
+              {
+                required: true,
+                message: "Please input your username!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+        </Form>
+      </Modal>
+    </Layout>
+  );
+}
 
-
-
-
-
-    );
-  };
-
-  export default add;
+export default Add;
