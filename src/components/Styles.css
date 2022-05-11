@@ -17,4 +17,10 @@
     height: 50px;
     border-radius: 5px;
 }
+.navBarContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: aqua;
+}
   
