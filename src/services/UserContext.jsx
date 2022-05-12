@@ -6,7 +6,7 @@ export const UserContext = createContext({});
 export const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState();
 
-  const decodeToken = (token) => {
+  const decodeToken = async (token) => {
     if (token) {
       const decodedUser = jwt_decode(token);
       const userData = decodedUser.data;
