@@ -5,8 +5,9 @@ import Home from "./components/Home";
 import AdminManagement from "./pages/admin/adminManagement";
 import CustomerManagement from "./pages/admin/customerManagement";
 import Payment from "./pages/admin/payment";
-import MovieBook from "./pages/customer/movieBook";
+//import MovieBook from "./pages/customer/movieBook";
 import AddMovie from "./pages/admin/addMovie";
+import Navbar from "./components/navbar";
 
 const MainRouter = () => {
   return (
@@ -17,8 +18,9 @@ const MainRouter = () => {
         <Route path="/admin/movieadminmanagement" element={<AdminManagement />} />
         <Route path="/admin/customerManagement" element={<CustomerManagement />} />
         <Route path="/admin/payment" element={<Payment />} />
-        <Route path="/moviebook" element={<MovieBook />} />
+        {/* <Route path="/moviebook" element={<MovieBook />} /> */}
         <Route path="/addmovie" element={<AddMovie />} />
+        <Route path="/navbar" element={<Navbar />} />
       </Routes>
     </>
   );
