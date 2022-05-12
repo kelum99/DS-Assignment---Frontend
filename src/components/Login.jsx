@@ -1,11 +1,36 @@
 import React from "react";
-import { Form, Input, Button, Card, Typography, Space } from "antd";
+import { Form, Input, Button, Card, Typography, Space, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import "./Styles.css";
+import useRequest from "../services/RequestContext";
+import useUser from "../services/UserContext";
 
 function Login() {
   const { Text, Link } = Typography;
   const navigate = useNavigate();
+  const { request, UpdateToken } = useRequest();
+  const [form] = Form.useForm();
+  const { user, decodeToken } = useUser();
+
+  const onFinish = async (values) => {
+    try {
+      const res = await request.post("login", values);
+      if (res.status === 200) {
+        await UpdateToken(res.data.data.token);
+        decodeToken(res.data.data.token);
+      } else {
+        message.error("Incorrect Email or Password!");
+        onReset();
+      }
+    } catch (e) {
+      console.log("login error ", e);
+      message.error("Incorrect Email or Password!");
+      onReset();
+    }
+  };
+  const onReset = () => {
+    form.resetFields();
+  };
   return (
     <div className="login-main-component">
       <Card
@@ -20,18 +45,19 @@ function Login() {
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
           initialValues={{ remember: true }}
-          //onFinish={onFinish}
+          onFinish={onFinish}
           // onFinishFailed={onFinishFailed}
           autoComplete="off"
+          form={form}
         >
           <Form.Item
             className="lableText"
-            label="Username"
-            name="username"
+            label="Email"
+            name="email"
             rules={[
               {
                 required: true,
-                message: "Please input your username!",
+                message: "Please input your email!",
               },
             ]}
           >
@@ -59,14 +85,7 @@ function Login() {
           </Form.Item>
 
           <Form.Item style={{ alignItems: "center" }}>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="loginBtn"
-              onClick={() => {
-                navigate("/home");
-              }}
-            >
+            <Button type="primary" htmlType="submit" className="loginBtn">
               Login
             </Button>
           </Form.Item>
