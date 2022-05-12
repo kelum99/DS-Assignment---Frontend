@@ -10,7 +10,7 @@ function Login() {
   const navigate = useNavigate();
   const { request, UpdateToken } = useRequest();
   const [form] = Form.useForm();
-  const { user, decodeToken } = useUser();
+  const { decodeToken } = useUser();
 
   const onFinish = async (values) => {
     try {
@@ -18,6 +18,7 @@ function Login() {
       if (res.status === 200) {
         await UpdateToken(res.data.data.token);
         decodeToken(res.data.data.token);
+        navigate("/home");
       } else {
         message.error("Incorrect Email or Password!");
         onReset();
