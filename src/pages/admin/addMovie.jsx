@@ -1,8 +1,20 @@
-import React, { useState } from "react";
-import { Form, Input, Button, Layout, Table, Space, Modal } from "antd";
+import React, { useEffect, useState } from "react";
+import {
+  Form,
+  Input,
+  Button,
+  Layout,
+  Table,
+  Space,
+  Modal,
+  message,
+} from "antd";
 import "./stylesAdmin.css";
-
+import useRequest from "../../services/RequestContext";
 function Add() {
+  const [form] = Form.useForm();
+  const { request } = useRequest();
+  const [movies, setMovies] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const showModal = () => {
     setIsModalVisible(true);
@@ -16,30 +28,53 @@ function Add() {
     setIsModalVisible(false);
   };
 
-  const dataSource = [
-    {
-      key: "1",
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street",
-    },
-    {
-      key: "2",
-      name: "John",
-      age: 42,
-      address: "10 Downing Street",
-    },
-  ];
+  const onReset = () => {
+    form.resetFields();
+  };
+
+  const onFinish = async (values) => {
+    try {
+      const res = await request.post("movie", values);
+      if (res.status === 201) {
+        message.success("Movie successfully added!");
+        console.log("move", res);
+        onReset();
+        getMovies();
+      } else {
+        message.error("failed!");
+      }
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
+
+  const getMovies = async () => {
+    try {
+      const res = await request.get("movie");
+      if (res.status === 200) {
+        console.log("movies", res);
+        setMovies(res.data);
+      } else {
+        message.error("failed!");
+      }
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
+
+  useEffect(() => {
+    getMovies();
+  }, []);
 
   const columns = [
     {
       title: "Movie Name",
-      dataIndex: "name",
+      dataIndex: "title",
       key: "name",
     },
     {
       title: "Description",
-      dataIndex: "des",
+      dataIndex: "description",
       key: "des",
     },
     {
@@ -49,7 +84,7 @@ function Add() {
     },
     {
       title: "Show Time",
-      dataIndex: "time",
+      dataIndex: "showTime",
       key: "time",
     },
     {
@@ -76,6 +111,7 @@ function Add() {
       </h1>
       <br />
       <Form
+        form={form}
         name="basic"
         labelCol={{
           span: 8,
@@ -86,13 +122,13 @@ function Add() {
         initialValues={{
           remember: true,
         }}
-        // onFinish={onFinish}
+        onFinish={onFinish}
         // onFinishFailed={onFinishFailed}
         // autoComplete="off"
       >
         <Form.Item
           label="Movie Name"
-          name="name"
+          name="title"
           rules={[
             {
               required: true,
@@ -105,7 +141,7 @@ function Add() {
 
         <Form.Item
           label="Description"
-          name="text"
+          name="description"
           rules={[
             {
               required: true,
@@ -118,7 +154,7 @@ function Add() {
 
         <Form.Item
           label="Ticket Price"
-          name="text"
+          name="price"
           rules={[
             {
               required: true,
@@ -131,7 +167,7 @@ function Add() {
 
         <Form.Item
           label="Show Time"
-          name="text"
+          name="showTime"
           rules={[
             {
               required: true,
@@ -144,7 +180,7 @@ function Add() {
 
         <Form.Item
           label="Category"
-          name="text"
+          name="category"
           rules={[
             {
               required: true,
@@ -168,7 +204,7 @@ function Add() {
       </Form>
 
       <div>
-        <Table dataSource={dataSource} columns={columns} />
+        <Table dataSource={movies} columns={columns} />
       </div>
 
       <Modal
