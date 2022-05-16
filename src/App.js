@@ -6,7 +6,7 @@ import { RequestContextProvider } from "./services/RequestContext";
 import { UserContextProvider } from "./services/UserContext";
 function App() {
   return (
-    <RequestContextProvider>
+    <RequestContextProvider baseURL={`http://localhost:4000/api/`}>
       <UserContextProvider>
         <BrowserRouter>
           <MainRouter />

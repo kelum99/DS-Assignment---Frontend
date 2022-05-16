@@ -13,7 +13,7 @@ export const RequestContextProvider = (props) => {
   const { children, baseURL } = props;
   const [token, setToken] = useState();
 
-  const UpdateToken = (value) => {
+  const UpdateToken = async (value) => {
     if (value) {
       setToken(value);
       localStorage.setItem("token", value);
