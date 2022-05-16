@@ -8,7 +8,7 @@ function Registration() {
     const { Text, Link } = Typography;
     const navigate = useNavigate();
     return(
-        <div className="login-main-component">
+        <div className="register-main-component">
             <Card
                 className="loginCard"
                 title="Register"
