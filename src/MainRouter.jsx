@@ -7,8 +7,8 @@ import CustomerManagement from "./pages/admin/customerManagement";
 import Payment from "./pages/admin/payment";
 //import MovieBook from "./pages/customer/movieBook";
 import AddMovie from "./pages/admin/addMovie";
-import Navbar from "./components/navbar";
-import Registration from "./pages/customer/Registration";
+import Registration from "./pages/customer/customerRegistration";
+import Stripe from "./pages/payment gateway/stripe";
 
 const MainRouter = () => {
   return (
@@ -16,12 +16,19 @@ const MainRouter = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/admin/movieadminmanagement" element={<AdminManagement />} />
-        <Route path="/admin/customerManagement" element={<CustomerManagement />} />
+        <Route
+          path="/admin/movieadminmanagement"
+          element={<AdminManagement />}
+        />
+        <Route
+          path="/admin/customerManagement"
+          element={<CustomerManagement />}
+        />
         <Route path="/admin/payment" element={<Payment />} />
         {/* <Route path="/moviebook" element={<MovieBook />} /> */}
         <Route path="/addmovie" element={<AddMovie />} />
-        <Route path="/navbar" element={<Navbar />} />
+        <Route path="/register" element={<Registration />} />
+        <Route path="/payment" element={<Stripe />} />
       </Routes>
     </>
   );

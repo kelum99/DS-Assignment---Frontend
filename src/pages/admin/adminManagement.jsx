@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Checkbox, Table, Button, message } from "antd";
+import { Form, Input, Table, Button, message } from "antd";
 import "./admin.css";
 
 const dataSource = [
@@ -7,41 +7,41 @@ const dataSource = [
     key: "1",
     name: "Mike",
     age: 32,
-    address: "10 Downing Street"
+    address: "10 Downing Street",
   },
   {
     key: "2",
     name: "John",
     age: 42,
-    address: "10 Downing Street"
-  }
+    address: "10 Downing Street",
+  },
 ];
 
 const columns = [
   {
     title: "Name",
     dataIndex: "name",
-    key: "name"
+    key: "name",
   },
   {
     title: "Age",
     dataIndex: "age",
-    key: "age"
+    key: "age",
   },
   {
     title: "Address",
     dataIndex: "address",
-    key: "address"
+    key: "address",
   },
   {
     title: "Action",
     key: "action",
-    render: () => <Button>Delete</Button>
-  }
+    render: () => <Button>Delete</Button>,
+  },
 ];
 
 const AdminManagement = () => {
-  const onFinish = values => {
+  const onFinish = (values) => {
     console.log("Success:", values);
   };
 
@@ -51,30 +51,25 @@ const AdminManagement = () => {
 
   const layout = {
     labelCol: {
-      span: 8
+      span: 8,
     },
     wrapperCol: {
-      span: 14
-    }
+      span: 14,
+    },
   };
 
   return (
     <div className="MainContainer-Item">
       <div className="form-item">
-        <Form
-          name="basic"
-        
-          onFinish={onFinish}
-          autoComplete="off"
-        >
+        <Form name="basic" onFinish={onFinish} autoComplete="off">
           <Form.Item
             label="Name"
             name="name"
             rules={[
               {
                 required: true,
-                message: "Please input your username!"
-              }
+                message: "Please input your username!",
+              },
             ]}
           >
             <Input />
@@ -86,8 +81,8 @@ const AdminManagement = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your password!"
-              }
+                message: "Please input your password!",
+              },
             ]}
           >
             <Input.Password />
@@ -95,7 +90,7 @@ const AdminManagement = () => {
           <Form.Item
             wrapperCol={{
               offset: 8,
-              span: 16
+              span: 16,
             }}
           ></Form.Item>
 
