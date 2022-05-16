@@ -8,6 +8,7 @@ import Payment from "./pages/admin/payment";
 //import MovieBook from "./pages/customer/movieBook";
 import AddMovie from "./pages/admin/addMovie";
 import Navbar from "./components/navbar";
+import Registration from "./pages/customer/Registration";
 
 const MainRouter = () => {
   return (
