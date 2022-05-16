@@ -34,7 +34,7 @@ function Payment() {
   
         <div className="main-container-payment">
           <div className="form">
-            <h1>Add Card Details</h1>
+            <h1>Payment Details</h1>
           
             <Form
               name="payment-form"
@@ -97,12 +97,9 @@ function Payment() {
               <Row>
               <Space size={size}>
                 <Button type="primary" htmlType="submit" onClick={onSuccess}>
-                  ADD
+                  PAY
                 </Button>
                 <Link to="/updateWallet">
-                <Button type="primary">
-                  My Wallet
-                </Button>
                 </Link>
                 </Space>
                 </Row>

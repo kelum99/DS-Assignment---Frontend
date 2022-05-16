@@ -103,9 +103,9 @@
 }
 
 .customer-table {
-  display: flex;
-  border-collapse: collapse;
-  width: 100%;
+    border-collapse: collapse;
+    width: 80%;
+    margin: 10px 25px
 }
 
 .customer-table .ant-table-content {

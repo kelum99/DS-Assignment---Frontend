@@ -61,12 +61,7 @@ const AdminManagement = () => {
   return (
     <div className="MainContainer-Item">
       <div className="form-item">
-        <Form
-          name="basic"
-        
-          onFinish={onFinish}
-          autoComplete="off"
-        >
+        <Form name="basic" onFinish={onFinish} autoComplete="off">
           <Form.Item
             label="Name"
             name="name"
@@ -74,6 +69,32 @@ const AdminManagement = () => {
               {
                 required: true,
                 message: "Please input your username!"
+              }
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Mobile"
+            name="mobile"
+            rules={[
+              {
+                required: true,
+                message: "Please input your Mobile!"
+              }
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="E-Mail"
+            name="email"
+            rules={[
+              {
+                required: true,
+                message: "Please input your E-Mail!"
               }
             ]}
           >
@@ -105,14 +126,14 @@ const AdminManagement = () => {
             </Button>
           </Form.Item>
         </Form>
-      </div>
 
-      <div>
-        <Table
-          dataSource={dataSource}
-          columns={columns}
-          className="admin-table"
-        />
+        <div>
+          <Table
+            dataSource={dataSource}
+            columns={columns}
+            className="admin-table"
+          />
+        </div>
       </div>
     </div>
   );

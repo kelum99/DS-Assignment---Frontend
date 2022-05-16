@@ -1,8 +1,24 @@
 import React from "react";
-import { Table } from "antd";
+import { Table, Button} from "antd";
+import useReuest from "./services/RequestContext";
 import "./admin.css";
 
-const columns = [
+const dataSource = [
+    {
+      key: "1",
+      name: "Mike",
+      age: 32,
+      address: "10 Downing Street"
+    },
+    {
+      key: "2",
+      name: "John",
+      age: 42,
+      address: "10 Downing Street"
+    }
+  ];
+  
+  const columns = [
     {
       title: "Name",
       dataIndex: "name",
@@ -17,30 +33,25 @@ const columns = [
       title: "Address",
       dataIndex: "address",
       key: "address"
-    }
-  ];
-
-  const dataSource = [
-    {
-      
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street"
     },
     {
-    
-      name: "John",
-      age: 42,
-      address: "10 Downing Street"
+      title: "Action",
+      key: "action",
+      render: () => <Button>Delete</Button>
     }
   ];
 
 const CustomerManagement = () => {
-    
+  const onFinish = values => {
+    console.log("Success:", values);
+  };
 
 return (
   <div>
-   <Table columns={columns} data={dataSource} className="customer-table" />
+   <Table 
+    columns={columns}
+    dataSource={dataSource} 
+    className="customer-table" />
   </div>
 );
 };
