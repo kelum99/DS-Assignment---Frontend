@@ -4,8 +4,6 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 import AdminManagement from "./pages/admin/adminManagement";
 import CustomerManagement from "./pages/admin/customerManagement";
-import Payment from "./pages/admin/payment";
-//import MovieBook from "./pages/customer/movieBook";
 import AddMovie from "./pages/admin/addMovie";
 import Registration from "./pages/customer/customerRegistration";
 import Stripe from "./pages/payment gateway/stripe";
@@ -24,8 +22,6 @@ const MainRouter = () => {
           path="/admin/customerManagement"
           element={<CustomerManagement />}
         />
-        <Route path="/admin/payment" element={<Payment />} />
-        {/* <Route path="/moviebook" element={<MovieBook />} /> */}
         <Route path="/addmovie" element={<AddMovie />} />
         <Route path="/register" element={<Registration />} />
         <Route path="/payment" element={<Stripe />} />
