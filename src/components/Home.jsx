@@ -9,6 +9,7 @@ import {
   InputNumber,
   Select,
   Button,
+  Typography,
 } from "antd";
 import "./Styles.css";
 import Nav from "./navbar";
@@ -16,6 +17,7 @@ import useUser from "../services/UserContext";
 
 function Home() {
   const { user } = useUser();
+  const { Text } = Typography;
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -80,6 +82,7 @@ function Home() {
           visible={isModalVisible}
           onOk={handleOk}
           onCancel={handleCancel}
+          width={600}
         >
           <div>
             {user ? (
@@ -97,6 +100,14 @@ function Home() {
                 onValuesChange={onFormLayoutChange}
                 size={componentSize}
               >
+                <Form.Item label="Movie Name">
+                  <Input value={"Test"} disabled />
+                </Form.Item>
+
+                <Form.Item label="Price">
+                  <Input value={"Test"} disabled />
+                </Form.Item>
+
                 <Form.Item label="Email">
                   <Input />
                 </Form.Item>
