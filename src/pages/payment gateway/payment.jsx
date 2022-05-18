@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { Result, Button, Card } from "antd";
+import { Result, Button, Card, Radio, Form, Input } from "antd";
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -11,6 +11,12 @@ const Payment = () => {
   const navigate = useNavigate();
 
   const [success, setSuccess] = useState();
+  const [value, setValue] = React.useState(1);
+
+  const onChange = (e) => {
+    console.log("radio checked", e.target.value);
+    setValue(e.target.value);
+  };
 
   const handlePay = async (e) => {
     e.preventDefault();
@@ -48,7 +54,29 @@ const Payment = () => {
             </Card>
           </div>
 
-          <form onSubmit={handlePay}>
+          <div style={{ marginTop: 20 }}>
+            <Radio.Group onChange={onChange} value={value}>
+              <Radio value={1}>Pay Via Card</Radio>
+              <Radio value={2}>Add to Mobile Bill</Radio>
+            </Radio.Group>
+          </div>
+          {value === 1 ? (
+            <form onSubmit={handlePay}>
+              <Card
+                className="checkoutForm"
+                title="Make Payment"
+                headStyle={{
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  border: "none",
+                  color: "#fff",
+                }}
+              >
+                <CardElement className="card" />
+                <button className="payBtn">Pay</button>
+              </Card>
+            </form>
+          ) : (
             <Card
               className="checkoutForm"
               title="Make Payment"
@@ -59,10 +87,47 @@ const Payment = () => {
                 color: "#fff",
               }}
             >
-              <CardElement className="card" />
-              <button className="payBtn">Pay</button>
+              <Form
+                layout="vertical"
+                labelCol={{ span: 8 }}
+                wrapperCol={{ span: 16 }}
+              >
+                <Form.Item
+                  className="label"
+                  label="Mobile Number"
+                  name="mobile"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your mobile number.",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+
+                <Form.Item
+                  className="label"
+                  label="OTP"
+                  name="otp"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input OTP.",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+
+                <Form.Item>
+                  <Button htmlType="submit" type="primary">
+                    Submit
+                  </Button>
+                </Form.Item>
+              </Form>
             </Card>
-          </form>
+          )}
         </div>
       ) : (
         <div>

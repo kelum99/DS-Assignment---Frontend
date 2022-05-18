@@ -5,6 +5,7 @@ import {
   ShoppingCartOutlined,
   LogoutOutlined,
   LoginOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import useUser from "../services/UserContext";
 import useRequest from "../services/RequestContext";
@@ -27,9 +28,17 @@ const Nav = () => {
         <Button>Home</Button>
       </div>
       <div>
-        {user && (
+        {user ? (
           <Button type="primary" icon={<ShoppingCartOutlined />}>
             Cart
+          </Button>
+        ) : (
+          <Button
+            type="primary"
+            icon={<UserOutlined />}
+            onClick={() => navigate("/register")}
+          >
+            Register
           </Button>
         )}
       </div>
@@ -42,7 +51,7 @@ const Nav = () => {
           <Button
             type="primary"
             icon={<LoginOutlined />}
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/login")}
           >
             Login
           </Button>

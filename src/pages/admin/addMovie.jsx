@@ -9,12 +9,11 @@ import {
   Modal,
   message,
   Select,
-  Popconfirm, 
+  Popconfirm,
 } from "antd";
 import "./stylesAdmin.css";
 import useRequest from "../../services/RequestContext";
 // import { deleteMovie } from "../../../../ds-assignment-backend/src/controllers/movie.controller";
-import axios from "axios";
 const { Option } = Select;
 function Add() {
   const [form] = Form.useForm();
@@ -37,16 +36,14 @@ function Add() {
     form.resetFields();
   };
 
- 
-
   function confirm(e) {
     console.log(e);
-    message.success('Click on Yes');
+    message.success("Click on Yes");
   }
-  
+
   function cancel(e) {
     console.log(e);
-    message.error('Click on No');
+    message.error("Click on No");
   }
 
   const onFinish = async (values) => {
@@ -125,13 +122,13 @@ function Add() {
         <Space size="middle">
           <Button onClick={showModal}>Update</Button>
           <Popconfirm
-    title="Are you sure to delete this task?"
-    onConfirm={confirm}
-    onCancel={cancel}
-    okText="Yes"
-    cancelText="No"
-  >
-          <Button>Delete</Button>
+            title="Are you sure to delete this task?"
+            onConfirm={confirm}
+            onCancel={cancel}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button>Delete</Button>
           </Popconfirm>
         </Space>
       ),
@@ -213,28 +210,36 @@ function Add() {
         </Form.Item> */}
 
         <Form.Item
-        label="Show Time"
-        name="showTime"
-        rules={[
-          {
-          required:true,
-          message:"Please input movie show time !",
-          }
-        ]}
+          label="Show Time"
+          name="showTime"
+          rules={[
+            {
+              required: true,
+              message: "Please input movie show time !",
+            },
+          ]}
         >
           <Select
-         // mode="multiple"
-          allowClear
-          style={{width:'100%'}}
-
-          placeholder="Please select"
-      //defaultValue={['10.30am']}
-      onChange={handleChange}
-      >
-         <Option value="10.30" label="10.30"> 10.30/13.30/22.30 </Option>
-      <Option value="13.30" label="13.30"> 10.30/13.30 </Option>
-      <Option value="22.30" label="22.30"> 22.30 </Option>
-      </Select>
+            // mode="multiple"
+            allowClear
+            style={{ width: "100%" }}
+            placeholder="Please select"
+            //defaultValue={['10.30am']}
+            onChange={handleChange}
+          >
+            <Option value="10.30" label="10.30">
+              {" "}
+              10.30/13.30/22.30{" "}
+            </Option>
+            <Option value="13.30" label="13.30">
+              {" "}
+              10.30/13.30{" "}
+            </Option>
+            <Option value="22.30" label="22.30">
+              {" "}
+              22.30{" "}
+            </Option>
+          </Select>
         </Form.Item>
 
         <Form.Item
