@@ -23,6 +23,7 @@
     justify-content: space-around;
     background-color: rgb(27, 6, 53);
     padding: auto;
+    padding: 10px;
 }
 
 .site-card-wrapper {
