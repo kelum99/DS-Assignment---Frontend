@@ -21,11 +21,43 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    background-color: aqua;
+    background-color: rgb(27, 6, 53);
+    padding: auto;
 }
 
 .site-card-wrapper {
     padding: 30px;
-    background: #ececec;
+    background: #4f2c8d;
+    margin-bottom: auto;
 }
+
+
+
+#btn{
+    
+    width: 300px;
+    background-image: linear-gradient(to right, #4b6cb7 0%, #182848  51%, #4b6cb7  100%);
+  /* margin-top: 100px; */
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    color: white;            
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+    font-size: small;
   
+    
+}
+
+
+
+
+
+
+
+/* .site-button-ghost-wrapper {
+    padding: 30px 20px 16px;
+    background: rgb(190, 200, 200);
+    margin: center;
+  } */

@@ -1,8 +1,7 @@
 import React from "react";
 import "./Styles.css";
-import { Button } from "antd";
+import { Button, Input } from "antd";
 import {
-  SearchOutlined,
   ShoppingCartOutlined,
   LogoutOutlined,
   LoginOutlined,
@@ -10,6 +9,8 @@ import {
 import useUser from "../services/UserContext";
 import useRequest from "../services/RequestContext";
 import { useNavigate } from "react-router-dom";
+const { Search } = Input;
+const onSearch = (value) => console.log(value);
 const Nav = () => {
   const { user, setUser } = useUser();
   const { UpdateToken } = useRequest();
@@ -48,9 +49,13 @@ const Nav = () => {
         )}
       </div>
       <div>
-        <Button type="primary" icon={<SearchOutlined />}>
-          Search
-        </Button>
+        <Search
+          placeholder="input search text"
+          allowClear
+          enterButton="Search"
+          size="large"
+          onSearch={onSearch}
+        />
       </div>
     </div>
   );
