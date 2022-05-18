@@ -1,0 +1,10 @@
+.cart-main-component{
+    display: flex;
+    justify-content: center;
+    margin-top: 70px;
+}
+
+.cartCard{
+    width: 1200px;
+    padding: 25px;
+}
