@@ -1,53 +1,99 @@
-import React from "react";
-import { Form, Input, Table, Button, message } from "antd";
+import React, { useEffect, useState } from "react";
+import { Form, Input, Table, Button, message, Popconfirm } from "antd";
 import "./admin.css";
-
-const dataSource = [
-  {
-    key: "1",
-    name: "Mike",
-    age: 32,
-    address: "10 Downing Street",
-  },
-  {
-    key: "2",
-    name: "John",
-    age: 42,
-    address: "10 Downing Street",
-  },
-];
-
-const columns = [
-  {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-  },
-  {
-    title: "Age",
-    dataIndex: "age",
-    key: "age",
-  },
-  {
-    title: "Address",
-    dataIndex: "address",
-    key: "address",
-  },
-  {
-    title: "Action",
-    key: "action",
-    render: () => <Button>Delete</Button>,
-  },
-];
+import useRequest from "../../services/RequestContext";
 
 const AdminManagement = () => {
-  const onFinish = (values) => {
-    console.log("Success:", values);
+  const [admins, setAdmins] = useState([]);
+  const [form] = Form.useForm();
+  const { request } = useRequest();
+
+  const getAdmins = async () => {
+    try {
+      const res = await request.get("movieadmin");
+      if (res.status === 200) {
+        console.log("admins", res);
+        setAdmins(res.data);
+      } else {
+        message.error("failed!");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const onReset = () => {
+    form.resetFields();
+  };
+  const deleteAdmin = async (id) => {
+    try {
+      const res = await request.delete(`movieadmin/${id}`);
+      if (res.status === 200) {
+        message.success("Successfully Removed!");
+        getAdmins();
+      } else {
+        message.error("failed!");
+      }
+    } catch (err) {
+      console.log("err", err);
+    }
   };
 
-  const success = () => {
-    message.success("Item Details Uploaded Successfully !");
+  const onFinish = async (values) => {
+    values.role = "movie admin";
+    try {
+      const res = await request.post("movieadmin", values);
+      if (res.status === 201) {
+        message.success("Movie Admin successfully added!");
+        console.log("move", res);
+        onReset();
+        getAdmins();
+      } else {
+        message.error("failed!");
+      }
+    } catch (err) {
+      console.log("err", err);
+    }
   };
+
+  const columns = [
+    {
+      title: "#",
+      dataIndex: "index",
+      key: "index",
+      render: (text, record, index) => index + 1,
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Mobile",
+      dataIndex: "mobile",
+      key: "mobile",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (record) => (
+        <Popconfirm
+          title="Are you sure to delete this admin?"
+          onConfirm={() => {
+            deleteAdmin(record._id);
+          }}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button>Delete</Button>
+        </Popconfirm>
+      ),
+    },
+  ];
 
   const layout = {
     labelCol: {
@@ -58,17 +104,56 @@ const AdminManagement = () => {
     },
   };
 
+  useEffect(() => {
+    getAdmins();
+  }, []);
+
   return (
     <div className="MainContainer-Item">
       <div className="form-item">
-        <Form name="basic" onFinish={onFinish} autoComplete="off">
+        <Form
+          name="basic"
+          onFinish={onFinish}
+          autoComplete="off"
+          form={form}
+          labelCol={{
+            span: 4,
+          }}
+          wrapperCol={{
+            span: 16,
+          }}
+        >
           <Form.Item
             label="Name"
             name="name"
             rules={[
               {
                 required: true,
-                message: "Please input your username!",
+                message: "Please input name!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              {
+                required: true,
+                message: "Please input email!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Mobile"
+            name="mobile"
+            rules={[
+              {
+                required: true,
+                message: "Please input mobile!",
               },
             ]}
           >
@@ -81,21 +166,15 @@ const AdminManagement = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your password!",
+                message: "Please input password!",
               },
             ]}
           >
             <Input.Password />
           </Form.Item>
-          <Form.Item
-            wrapperCol={{
-              offset: 8,
-              span: 16,
-            }}
-          ></Form.Item>
 
           <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 6 }}>
-            <Button type="primary" htmlType="submit" onClick={success}>
+            <Button type="primary" htmlType="submit">
               ADD
             </Button>
           </Form.Item>
@@ -103,11 +182,7 @@ const AdminManagement = () => {
       </div>
 
       <div>
-        <Table
-          dataSource={dataSource}
-          columns={columns}
-          className="admin-table"
-        />
+        <Table dataSource={admins} columns={columns} className="admin-table" />
       </div>
     </div>
   );

@@ -1,49 +1,57 @@
-import React from "react";
-import { Table } from "antd";
+import React, { useEffect, useState } from "react";
+import { Table, message } from "antd";
 import "./admin.css";
+import useRequest from "../../services/RequestContext";
 
-const columns = [
+const CustomerManagement = () => {
+  const [customer, setCustomer] = useState([]);
+  const { request } = useRequest();
+
+  const getCustomer = async () => {
+    try {
+      const res = await request.get("customer");
+      if (res.status === 200) {
+        console.log("customer", res.data);
+        setCustomer(res.data);
+      } else {
+        message.error("failed!");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const data = [
     {
       title: "Name",
       dataIndex: "name",
-      key: "name"
+      key: "name",
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age"
+      title: "Nic",
+      dataIndex: "nic",
+      key: "nic",
     },
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address"
-    }
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Mobile",
+      dataIndex: "mobile",
+      key: "mobile",
+    },
   ];
+  useEffect(() => {
+    getCustomer();
+  }, []);
 
-  const dataSource = [
-    {
-      
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street"
-    },
-    {
-    
-      name: "John",
-      age: 42,
-      address: "10 Downing Street"
-    }
-  ];
-
-const CustomerManagement = () => {
-    
-
-return (
-  <div>
-   <Table columns={columns} data={dataSource} className="customer-table" />
-  </div>
-);
+  return (
+    <div>
+      <Table columns={data} data={customer} />
+    </div>
+  );
 };
 
 export default CustomerManagement;
-
