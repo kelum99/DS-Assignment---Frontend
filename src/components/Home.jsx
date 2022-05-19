@@ -11,7 +11,10 @@ import {
   Typography,
   Space,
   message,
+  Menu,
+  Dropdown,
 } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 import "./Styles.css";
 import Nav from "./navbar";
 import useUser from "../services/UserContext";
@@ -27,6 +30,58 @@ function Home() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState();
+
+  const menu = (
+    <>
+      {user && (
+        <Menu
+          style={{ backgroundColor: "#4f2c8d", border: "none" }}
+          items={[
+            {
+              label: (
+                <>
+                  {user.role === "admin" ||
+                    (user.role === "movie admin" && (
+                      <Button id="btn" onClick={() => navigate("/addmovie")}>
+                        Movie Manage
+                      </Button>
+                    ))}
+                </>
+              ),
+            },
+            {
+              label: (
+                <>
+                  {user.role === "admin" && (
+                    <Button
+                      id="btn"
+                      onClick={() => navigate("/admin/movieadminmanagement")}
+                    >
+                      Admin Manage
+                    </Button>
+                  )}
+                </>
+              ),
+            },
+            {
+              label: (
+                <>
+                  {user.role === "admin" && (
+                    <Button
+                      id="btn"
+                      onClick={() => navigate("/admin/customerManagement")}
+                    >
+                      Customer Manage
+                    </Button>
+                  )}
+                </>
+              ),
+            },
+          ]}
+        />
+      )}
+    </>
+  );
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -84,6 +139,21 @@ function Home() {
   return (
     <>
       <Nav />
+      {user && (
+        <div className="adminMenu">
+          {user.role === "admin" ||
+            (user.role === "movie admin" && (
+              <Dropdown overlay={menu} className="dropDown">
+                <a onClick={(e) => e.preventDefault()}>
+                  <Space>
+                    Admin Menu
+                    <DownOutlined />
+                  </Space>
+                </a>
+              </Dropdown>
+            ))}
+        </div>
+      )}
 
       <div className="site-card-wrapper">
         <div>

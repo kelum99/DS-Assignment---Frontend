@@ -19,32 +19,37 @@ function Add() {
   const [form] = Form.useForm();
   const { request } = useRequest();
   const [movies, setMovies] = useState([]);
+  const [selectedMovie, setSelectedMovie] = useState(undefined);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const showModal = () => {
     setIsModalVisible(true);
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = async (values) => {
+    try {
+      const res = await request.put(`movie/${selectedMovie._id}`, values);
+      if (res.status === 200) {
+        message.success("Movie successfully Updated!");
+        setIsModalVisible(false);
+        setSelectedMovie(undefined);
+        getMovies();
+      } else {
+        message.error("failed!");
+      }
+    } catch (err) {
+      console.log("err", err);
+    }
     setIsModalVisible(false);
   };
 
   const handleCancel = () => {
+    setSelectedMovie(undefined);
     setIsModalVisible(false);
   };
 
   const onReset = () => {
     form.resetFields();
   };
-
-  function confirm(e) {
-    console.log(e);
-    message.success("Click on Yes");
-  }
-
-  function cancel(e) {
-    console.log(e);
-    message.error("Click on No");
-  }
 
   const onFinish = async (values) => {
     try {
@@ -68,6 +73,7 @@ function Add() {
       if (res.status === 200) {
         console.log("movies", res);
         setMovies(res.data);
+        setSelectedMovie(undefined);
       } else {
         message.error("failed!");
       }
@@ -76,20 +82,32 @@ function Add() {
     }
   };
 
-  //my delete
-  // deleteMovie(id){
-  //   axios.deleteOne('/id' +id)
-  //   .then(response => {console.log(response.data)});
-  // }
+  const deleteMovie = async (id) => {
+    try {
+      const res = await request.delete(`movie/${id}`);
+      if (res.status === 200) {
+        message.success("Successfully Removed!");
+        getMovies();
+      } else {
+        message.error("failed!");
+      }
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
 
   useEffect(() => {
     getMovies();
+    handleCancel();
   }, []);
 
-  function handleChange(value) {
-    console.log(`selected ${value}`);
-  }
   const columns = [
+    {
+      title: "#",
+      dataIndex: "index",
+      key: "index",
+      render: (text, record, index) => index + 1,
+    },
     {
       title: "Movie Name",
       dataIndex: "title",
@@ -118,19 +136,30 @@ function Add() {
     {
       title: "Action",
       key: "action",
-      render: (text, record) => (
-        <Space size="middle">
-          <Button onClick={showModal}>Update</Button>
-          <Popconfirm
-            title="Are you sure to delete this task?"
-            onConfirm={confirm}
-            onCancel={cancel}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button>Delete</Button>
-          </Popconfirm>
-        </Space>
+      render: (record, index) => (
+        <React.Fragment key={index}>
+          <Space size="middle">
+            <Button
+              onClick={() => {
+                setSelectedMovie(record);
+                showModal();
+              }}
+            >
+              Update
+            </Button>
+            <Popconfirm
+              title="Are you sure to delete this task?"
+              onConfirm={() => {
+                console.log("ddd", record);
+                deleteMovie(record._id);
+              }}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button>Delete</Button>
+            </Popconfirm>
+          </Space>
+        </React.Fragment>
       ),
     },
   ];
@@ -154,8 +183,6 @@ function Add() {
           remember: true,
         }}
         onFinish={onFinish}
-        // onFinishFailed={onFinishFailed}
-        // autoComplete="off"
       >
         <Form.Item
           label="Movie Name"
@@ -224,20 +251,15 @@ function Add() {
             allowClear
             style={{ width: "100%" }}
             placeholder="Please select"
-            //defaultValue={['10.30am']}
-            onChange={handleChange}
           >
             <Option value="10.30" label="10.30">
-              {" "}
-              10.30/13.30/22.30{" "}
+              10.30
             </Option>
-            <Option value="13.30" label="13.30">
-              {" "}
-              10.30/13.30{" "}
+            <Option value="1.30" label="1.30">
+              1.30
             </Option>
-            <Option value="22.30" label="22.30">
-              {" "}
-              22.30{" "}
+            <Option value="6.00" label="6.00">
+              6.00
             </Option>
           </Select>
         </Form.Item>
@@ -272,15 +294,26 @@ function Add() {
       </div>
 
       <Modal
+        maskClosable={false}
         title="Update"
+        width={700}
         visible={isModalVisible}
-        onUpdate={handleUpdate}
         onCancel={handleCancel}
+        footer={null}
       >
-        <Form>
+        <Form
+          initialValues={selectedMovie}
+          onFinish={handleUpdate}
+          labelCol={{
+            span: 6,
+          }}
+          wrapperCol={{
+            span: 12,
+          }}
+        >
           <Form.Item
             label="Movie Name"
-            name="name"
+            name="title"
             rules={[
               {
                 required: true,
@@ -293,7 +326,7 @@ function Add() {
 
           <Form.Item
             label="Description"
-            name="text"
+            name="description"
             rules={[
               {
                 required: true,
@@ -306,7 +339,7 @@ function Add() {
 
           <Form.Item
             label="Ticket Price"
-            name="text"
+            name="price"
             rules={[
               {
                 required: true,
@@ -319,7 +352,7 @@ function Add() {
 
           <Form.Item
             label="Show Time"
-            name="text"
+            name="showTime"
             rules={[
               {
                 required: true,
@@ -332,7 +365,7 @@ function Add() {
 
           <Form.Item
             label="Category"
-            name="text"
+            name="category"
             rules={[
               {
                 required: true,
@@ -341,6 +374,11 @@ function Add() {
             ]}
           >
             <Input />
+          </Form.Item>
+          <Form.Item>
+            <Button htmlType="submit" type="primary" style={{ float: "right" }}>
+              Update
+            </Button>
           </Form.Item>
         </Form>
       </Modal>
