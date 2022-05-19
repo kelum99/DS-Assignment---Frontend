@@ -94,6 +94,7 @@ function Home() {
     values.price = selectedMovie.price;
     values.userId = user._id;
     values.status = "unpaid";
+    values.subTotal = selectedMovie.price * values.quantity;
     console.log("value", values);
     try {
       const res = await request.post("booking", values);

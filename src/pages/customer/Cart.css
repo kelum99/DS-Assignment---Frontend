@@ -8,3 +8,10 @@
     width: 1200px;
     padding: 25px;
 }
+.total{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 16px 0px;
+}

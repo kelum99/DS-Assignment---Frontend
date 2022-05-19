@@ -6,6 +6,7 @@ import {
   LogoutOutlined,
   LoginOutlined,
   UserOutlined,
+  ScheduleOutlined,
 } from "@ant-design/icons";
 import useUser from "../services/UserContext";
 import useRequest from "../services/RequestContext";
@@ -59,6 +60,17 @@ const Nav = () => {
             onClick={() => navigate("/login")}
           >
             Login
+          </Button>
+        )}
+      </div>
+      <div>
+        {user && (
+          <Button
+            type="primary"
+            icon={<ScheduleOutlined />}
+            onClick={() => navigate("/mytickets")}
+          >
+            My Tickets
           </Button>
         )}
       </div>
