@@ -148,7 +148,7 @@ function Add() {
               Update
             </Button>
             <Popconfirm
-              title="Are you sure to delete this task?"
+              title="Are you sure to delete this movie?"
               onConfirm={() => {
                 deleteMovie(record._id);
               }}

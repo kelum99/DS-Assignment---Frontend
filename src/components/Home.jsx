@@ -40,12 +40,11 @@ function Home() {
             {
               label: (
                 <>
-                  {user.role === "admin" ||
-                    (user.role === "movie admin" && (
-                      <Button id="btn" onClick={() => navigate("/addmovie")}>
-                        Movie Manage
-                      </Button>
-                    ))}
+                  {(user.role === "admin" || user.role === "movie admin") && (
+                    <Button id="btn" onClick={() => navigate("/addmovie")}>
+                      Movie Manage
+                    </Button>
+                  )}
                 </>
               ),
             },
@@ -142,17 +141,16 @@ function Home() {
       <Nav />
       {user && (
         <div className="adminMenu">
-          {user.role === "admin" ||
-            (user.role === "movie admin" && (
-              <Dropdown overlay={menu} className="dropDown">
-                <a onClick={(e) => e.preventDefault()}>
-                  <Space>
-                    Admin Menu
-                    <DownOutlined />
-                  </Space>
-                </a>
-              </Dropdown>
-            ))}
+          {(user.role === "admin" || user.role === "movie admin") && (
+            <Dropdown overlay={menu} className="dropDown">
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  Admin Menu
+                  <DownOutlined />
+                </Space>
+              </a>
+            </Dropdown>
+          )}
         </div>
       )}
 
