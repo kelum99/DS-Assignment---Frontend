@@ -22,6 +22,7 @@ const Nav = () => {
     await UpdateToken(undefined);
     setUser({});
     navigate("/");
+    window.location.reload(false);
   };
 
   return (
