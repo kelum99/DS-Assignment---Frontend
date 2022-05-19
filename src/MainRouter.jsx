@@ -8,6 +8,7 @@ import AddMovie from "./pages/admin/addMovie";
 import Registration from "./pages/customer/customerRegistration";
 import Stripe from "./pages/payment gateway/stripe";
 import Cart from "./pages/customer/Cart";
+import MyTickets from "./pages/customer/myTickets";
 
 const MainRouter = () => {
   return (
@@ -27,6 +28,7 @@ const MainRouter = () => {
         <Route path="/register" element={<Registration />} />
         <Route path="/payment" element={<Stripe />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/mytickets" element={<MyTickets />} />
       </Routes>
     </>
   );
