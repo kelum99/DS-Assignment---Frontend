@@ -24,3 +24,12 @@
 .label .ant-form-item-required{
     color: #fff;
 }
+.email{
+    padding: 10px 16px;
+    background-color: #1890ff;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    margin-left: 45%;
+
+}

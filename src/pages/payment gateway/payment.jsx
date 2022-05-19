@@ -1,17 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { Result, Button, Card, Radio, Form, Input } from "antd";
 import "./styles.css";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import emailjs from "@emailjs/browser";
+import useUser from "../../services/UserContext";
 
 const Payment = () => {
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
   const { total } = useParams();
-  const [success, setSuccess] = useState();
+  const [success, setSuccess] = useState(true);
   const [value, setValue] = React.useState(1);
+  const { user } = useUser();
+  const form = useRef();
+
+  const current = new Date();
+  const date = `${current.getDate()}/${
+    current.getMonth() + 1
+  }/${current.getFullYear()}`;
+
+  const onSend = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm(
+        "service_tfy313b",
+        "template_o3kxhxk",
+        form.current,
+        "fLbQsnfg10Lxfe_jQ"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
 
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
@@ -141,6 +170,24 @@ const Payment = () => {
               </Button>,
             ]}
           />
+          <div>
+            <form ref={form} onSubmit={onSend}>
+              <input type="text" name="user_name" value={"kelum"} hidden />
+              <input
+                type="email"
+                name="user_email"
+                value={"venomval99@gmail.com"}
+                hidden
+              />
+              <input type="number" name="total" value={total} hidden />
+              <input type="text" name="date" value={date} hidden />
+              <input
+                type="submit"
+                value="Send Confirm Email"
+                className="email"
+              />
+            </form>
+          </div>
         </div>
       )}
     </>
