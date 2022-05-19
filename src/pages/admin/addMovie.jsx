@@ -150,7 +150,6 @@ function Add() {
             <Popconfirm
               title="Are you sure to delete this task?"
               onConfirm={() => {
-                console.log("ddd", record);
                 deleteMovie(record._id);
               }}
               okText="Yes"

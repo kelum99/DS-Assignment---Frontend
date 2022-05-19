@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { Result, Button, Card, Radio, Form, Input } from "antd";
 import "./styles.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const Payment = () => {
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
-
+  const { total } = useParams();
   const [success, setSuccess] = useState();
   const [value, setValue] = React.useState(1);
 
@@ -29,7 +29,7 @@ const Payment = () => {
       console.log("Stripe 23 | token generated!", paymentMethod);
       const { id } = paymentMethod;
       const res = await axios.post("http://localhost:8000/api/stripe/payment", {
-        amount: 1000,
+        amount: total,
         id,
         email: "kelumayuwardhana@gmail.com",
       });
@@ -48,9 +48,9 @@ const Payment = () => {
         <div style={{ margin: 25 }}>
           <div>
             <Card title="Checkout" style={{ width: 600 }}>
-              <p>Transction Id:</p>
-              <p>Movies:</p>
-              <p>Total:</p>
+              <span style={{ fontSize: 16, fontWeight: "bold" }}>
+                Total: {total} LKR
+              </span>
             </Card>
           </div>
 

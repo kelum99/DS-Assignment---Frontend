@@ -1,41 +1,56 @@
-import React from "react";
-import "antd/dist/antd.css";
+import React, { useEffect, useState } from "react";
 import "./Cart.css";
-import { Tag, Table, Space, Card, Select } from "antd";
-import { useState } from "react";
+import { Table, Card, Select, Button, Popconfirm, message } from "antd";
 import { useNavigate } from "react-router-dom";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
+import useRequest from "../../services/RequestContext";
+import useUser from "../../services/UserContext";
 const { Option } = Select;
 
 function Cart() {
-  const dataSource = [
-    {
-      key: "1",
-      id: 1,
-      email: "vihanga@gmail.com",
-      mobileNumber: "0711234567",
+  const [tickets, setTickets] = useState([]);
+  const [subTotals, setSubTotals] = useState([]);
+  const [total, setTotal] = useState(0);
+  const { request } = useRequest();
+  const navigate = useNavigate();
+  const { user } = useUser();
 
-      time: "10.30",
-      price: "2000",
-      action: "action",
-    },
-    {
-      key: "2",
-      id: 2,
-      email: "nimal@gmail.com",
-      mobileNumber: "0712771079",
-
-      time: "10.30",
-      price: "2000",
-      action: "action",
-    },
-  ];
+  const getTickets = async () => {
+    try {
+      const res = await request.get(`booking/${user._id}`);
+      if (res.status === 200) {
+        console.log("tickets", res.data);
+        setTickets(res.data);
+        setSubTotals(res.data.map((val) => val.subTotal));
+      } else {
+        console.log("error");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const deleteTicket = async (id) => {
+    try {
+      const res = await request.delete(`booking/${id}`);
+      if (res.status === 200) {
+        message.success("Successfully Removed!");
+        getTickets();
+      } else {
+        message.error("failed!");
+      }
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
+  useEffect(() => {
+    getTickets();
+  }, [user]);
 
   const columns = [
     {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
+      title: "Movie title",
+      dataIndex: "movieTitle",
+      key: "title",
     },
     {
       title: "Email",
@@ -43,10 +58,11 @@ function Cart() {
       key: "email",
     },
     {
-      title: "Mobile Number",
-      dataIndex: "mobileNumber",
-      key: "mobileNumber",
+      title: "Quantity",
+      dataIndex: "quantity",
+      key: "quantity",
     },
+
     {
       title: "Theater",
       //dataIndex: 'theater',
@@ -75,7 +91,7 @@ function Cart() {
     },
     {
       title: "Time",
-      dataIndex: "time",
+      dataIndex: "showTime",
       key: "time",
     },
     {
@@ -84,18 +100,37 @@ function Cart() {
       key: "price",
     },
     {
+      title: "Sub Total (LKR)",
+      dataIndex: "subTotal",
+      key: "subTotal",
+    },
+    {
       title: "Actions",
       key: "action",
       render: (record) => {
         return (
           <>
-            <EditOutlined />
-            <DeleteOutlined style={{ color: "red", marginLeft: 12 }} />
+            <Popconfirm
+              title="Are you sure to delete?"
+              onConfirm={() => deleteTicket(record._id)}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button>
+                <DeleteOutlined style={{ color: "red" }} />
+              </Button>
+            </Popconfirm>
           </>
         );
       },
     },
   ];
+  let temp = 0;
+  const totalX = subTotals.reduce(
+    (previousValue, currentValue) => previousValue + currentValue,
+    temp
+  );
+  console.log("sadadas", totalX);
   return (
     <div className="cart-main-component">
       <Card
@@ -103,7 +138,27 @@ function Cart() {
         title="Cart"
         headStyle={{ fontSize: 30, fontWeight: "bold", border: "none" }}
       >
-        <Table dataSource={dataSource} columns={columns} />
+        <Table dataSource={tickets} columns={columns} />
+        <div className="total">
+          <span style={{ fontSize: 16, fontWeight: "bold", marginRight: 50 }}>
+            Total:
+            {subTotals.reduce(
+              (previousValue, currentValue) => previousValue + currentValue,
+              temp
+            )}{" "}
+            LKR
+          </span>
+          <Popconfirm
+            title="Are you sure to confirm?"
+            onConfirm={() => {
+              navigate(`/payment/${totalX}`);
+            }}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button type="primary">Confirm </Button>
+          </Popconfirm>
+        </div>
       </Card>
     </div>
   );

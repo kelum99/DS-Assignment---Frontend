@@ -26,7 +26,7 @@ const MainRouter = () => {
         />
         <Route path="/addmovie" element={<AddMovie />} />
         <Route path="/register" element={<Registration />} />
-        <Route path="/payment" element={<Stripe />} />
+        <Route path="/payment/:total" element={<Stripe />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/mytickets" element={<MyTickets />} />
       </Routes>
