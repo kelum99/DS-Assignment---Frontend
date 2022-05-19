@@ -1,10 +1,30 @@
 import React from "react";
 import "./customerRegistration.css";
-import { Form, Input, Button, Card, Checkbox } from "antd";
+import { Form, Input, Button, Card, Checkbox, message } from "antd";
 import { useNavigate } from "react-router-dom";
-
+import useRequest from "../../services/RequestContext";
 function Registration() {
   const navigate = useNavigate();
+  const { request } = useRequest();
+  const [form] = Form.useForm();
+
+  const onFinish = async (values) => {
+    values.role = "customer";
+    console.log("values", values);
+    try {
+      const res = await request.post("customer", values);
+      if (res.status === 201) {
+        message.success("Successfully Registered!");
+        navigate("/login");
+      } else {
+        message.success("Registration Failed. Try Again!");
+        form.resetFields();
+      }
+    } catch (e) {
+      console.log("error", e);
+      form.resetFields();
+    }
+  };
   return (
     <div className="login-main-component">
       <Card
@@ -19,14 +39,13 @@ function Registration() {
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
           initialValues={{ remember: true }}
-          //onFinish={onFinish}
-          // onFinishFailed={onFinishFailed}
+          onFinish={onFinish}
           autoComplete="off"
         >
           <Form.Item
             className="lableText"
             label="Name"
-            name="username"
+            name="name"
             rules={[
               {
                 required: true,
@@ -168,14 +187,7 @@ function Registration() {
           </Form.Item>
 
           <Form.Item style={{ alignItems: "center" }}>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="loginBtn"
-              onClick={() => {
-                navigate("/home");
-              }}
-            >
+            <Button type="primary" htmlType="submit" className="loginBtn">
               Register
             </Button>
           </Form.Item>
