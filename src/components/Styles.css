@@ -30,8 +30,20 @@
     padding: 30px;
     background: #4f2c8d;
     margin-bottom: auto;
+    min-height: 100vh;
 }
-
+.adminMenu{
+    background-color: #4f2c8d;
+    padding: 20px;
+    
+}
+.dropDown{
+    color: #fff;
+    font-size: 18px;
+    border: 1px solid white;
+    padding: 8px;
+   
+}
 
 
 #btn{
@@ -43,7 +55,6 @@
     text-transform: uppercase;
     transition: 0.5s;
     color: white;            
-    box-shadow: 0 0 20px #eee;
     border-radius: 10px;
     display: block;
     font-size: small;

@@ -22,6 +22,7 @@ const Nav = () => {
     setUser({});
     navigate("/");
   };
+
   return (
     <div className="navBarContainer">
       <div>
@@ -29,7 +30,11 @@ const Nav = () => {
       </div>
       <div>
         {user ? (
-          <Button type="primary" icon={<ShoppingCartOutlined />}>
+          <Button
+            type="primary"
+            icon={<ShoppingCartOutlined />}
+            onClick={() => navigate("/cart")}
+          >
             Cart
           </Button>
         ) : (
