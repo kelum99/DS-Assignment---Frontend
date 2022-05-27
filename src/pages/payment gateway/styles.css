@@ -20,6 +20,7 @@
     border: none;
     font-size: 16px;
     font-weight: bold;
+    cursor: pointer;
 }
 .label .ant-form-item-required{
     color: #fff;

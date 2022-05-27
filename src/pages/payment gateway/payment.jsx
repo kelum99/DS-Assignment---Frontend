@@ -12,7 +12,7 @@ const Payment = () => {
   const elements = useElements();
   const navigate = useNavigate();
   const { total } = useParams();
-  const [success, setSuccess] = useState(true);
+  const [success, setSuccess] = useState(false);
   const [value, setValue] = React.useState(1);
   const { user } = useUser();
   const form = useRef();
@@ -60,7 +60,6 @@ const Payment = () => {
       const res = await axios.post("http://localhost:8000/api/stripe/payment", {
         amount: total,
         id,
-        email: "kelumayuwardhana@gmail.com",
       });
       if (res.data.success) {
         console.log("successfull payment");
@@ -172,16 +171,12 @@ const Payment = () => {
           />
           <div>
             <form ref={form} onSubmit={onSend}>
-              <input type="text" name="user_name" value={"kelum"} hidden />
-              <input
-                type="email"
-                name="user_email"
-                value={"venomval99@gmail.com"}
-                hidden
-              />
+              <input type="text" name="user_name" value={user.name} hidden />
+              <input type="email" name="user_email" value={user.email} hidden />
               <input type="number" name="total" value={total} hidden />
               <input type="text" name="date" value={date} hidden />
               <input
+                style={{ cursor: "pointer" }}
                 type="submit"
                 value="Send Confirm Email"
                 className="email"

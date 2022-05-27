@@ -194,13 +194,6 @@ function Home() {
       </div>
       <br />
 
-      <center>
-        <Button id="btn">Admin Manage</Button>
-
-        <Button id="btn">Customer Manage</Button>
-        <Button id="btn">Movie Manage</Button>
-      </center>
-
       <div>
         <Modal
           title="Book Your Ticket"
