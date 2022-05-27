@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { Result, Button, Card, Radio, Form, Input } from "antd";
+import { Result, Button, Card, Radio, Form, Input, message } from "antd";
 import "./styles.css";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -35,9 +35,11 @@ const Payment = () => {
       .then(
         (result) => {
           console.log(result.text);
+          message.success("Email send successfully!");
         },
         (error) => {
           console.log(error.text);
+          message.error("Email send failed!");
         }
       );
   };
@@ -164,7 +166,7 @@ const Payment = () => {
             title="Successfully Purchased Your Tickets"
             subTitle="Order number: 2017182818828182881 "
             extra={[
-              <Button type="primary" onClick={() => navigate("/home")}>
+              <Button type="primary" onClick={() => navigate("/")}>
                 Go Home Page
               </Button>,
             ]}
